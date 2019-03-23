@@ -55,6 +55,7 @@ class NotificationSlackChannelTest extends TestCase
     {
         return [
             'payloadWithAttachmentBlockBuilder' => $this->getPayloadWithAttachmentBlockBuilder(),
+            'payloadWithAttachmentSpecialtyBlockBuilder' => $this->getPayloadWithAttachmentSpecialtyBlockBuilder(),
         ];
     }
 
@@ -113,6 +114,30 @@ class NotificationSlackChannelTest extends TestCase
                                             'text' => 'Cancel',
                                         ],
                                     ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public function getPayloadWithAttachmentSpecialtyBlockBuilder()
+    {
+        return [
+            new NotificationSlackChannelWithAttachmentSpecialtyBlockBuilderTestNotification,
+            [
+                'json' => [
+                    'text' => 'Content',
+                    'attachments' => [
+                        [
+                            'title' => 'Laravel',
+                            'text' => 'Attachment Content',
+                            'title_link' => 'https://laravel.com',
+                            'blocks' => [
+                                [
+                                    'type' => 'divider',
                                 ],
                             ],
                         ],
@@ -188,6 +213,20 @@ class NotificationSlackChannelWithAttachmentBlockBuilderTestNotification extends
                                 ],
                             ]);
                     });
+            });
+    }
+}
+
+class NotificationSlackChannelWithAttachmentSpecialtyBlockBuilderTestNotification extends Notification
+{
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)
+            ->content('Content')
+            ->attachment(function ($attachment) {
+                $attachment->title('Laravel', 'https://laravel.com')
+                    ->content('Attachment Content')
+                    ->divider();
             });
     }
 }
