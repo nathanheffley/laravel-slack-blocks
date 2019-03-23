@@ -26,4 +26,16 @@ class SlackAttachment extends LaravelSlackAttachment
 
         return $this;
     }
+
+    /**
+     * Add a divider block to the attachment.
+     *
+     * @return $this
+     */
+    public function divider()
+    {
+        $this->blocks[] = $block = new SlackAttachmentBlockDivider;
+
+        return $this;
+    }
 }
