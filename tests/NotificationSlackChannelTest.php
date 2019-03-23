@@ -136,8 +136,17 @@ class NotificationSlackChannelTest extends TestCase
                             'blocks' => [
                                 [
                                     'type' => 'image',
+                                    'title' => [
+                                        'type' => 'plain_text',
+                                        'text' => 'Here is a kitten picture!',
+                                    ],
                                     'image_url' => 'https://placekitten.com/400/600',
                                     'alt_text' => 'A cute little kitten',
+                                ],
+                                [
+                                    'type' => 'image',
+                                    'image_url' => 'https://placekitten.com/600/400',
+                                    'alt_text' => 'Another cute cat',
                                 ],
                                 [
                                     'type' => 'divider',
@@ -228,7 +237,8 @@ class NotificationSlackChannelWithAttachmentSpecialtyBlockBuilderTestNotificatio
             ->content('Content')
             ->attachment(function ($attachment) {
                 $attachment->title('Specialty')
-                    ->imageBlock('https://placekitten.com/400/600', 'A cute little kitten')
+                    ->imageBlock('https://placekitten.com/400/600', 'A cute little kitten', 'Here is a kitten picture!')
+                    ->imageBlock('https://placekitten.com/600/400', 'Another cute cat')
                     ->dividerBlock();
             });
     }

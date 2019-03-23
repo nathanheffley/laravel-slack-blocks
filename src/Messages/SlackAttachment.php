@@ -46,11 +46,12 @@ class SlackAttachment extends LaravelSlackAttachment
      *
      * @param string $imageUrl
      * @param string $altText
+     * @param string|null $title
      * @return $this
      */
-    public function imageBlock($imageUrl, $altText)
+    public function imageBlock($imageUrl, $altText, $title = null)
     {
-        $this->blocks[] = new SlackAttachmentBlockImage($imageUrl, $altText);
+        $this->blocks[] = new SlackAttachmentBlockImage($imageUrl, $altText, $title);
 
         return $this;
     }
