@@ -40,3 +40,13 @@ public function toSlack($notifiable)
 ```
 
 To see all the possible fields you can add to a block, check out the [official Slack Blocks documentation](https://api.slack.com/reference/messaging/blocks).
+
+To help, some blocks have been given dedicated helper functions on the attachment model itself. Currently there are methods for adding dividers and images.
+
+```
+(new SlackMessage)->attachment(function ($attachment) {
+    $attachment->imageBlock('http://placekitten.com/300/200', 'A cute kitten');
+    $attachment->dividerBlock();
+    $attachment->imageBlock('http://placekitten.com/300/200', 'A cute kitten', 'This is a titled cat image');
+});
+```
