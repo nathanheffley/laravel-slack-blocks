@@ -15,6 +15,7 @@
         "laravel/slack-notification-channel": "^1.0"
     },
     "require-dev": {
+        "illuminate/notifications": "~5.7",
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^7.0"
     },
