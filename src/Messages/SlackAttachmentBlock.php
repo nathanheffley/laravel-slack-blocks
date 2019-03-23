@@ -2,7 +2,9 @@
 
 namespace NathanHeffley\LaravelSlackBlocks\Messages;
 
-class SlackAttachmentBlock
+use NathanHeffley\LaravelSlackBlocks\Contracts\SlackAttachmentBlockContract;
+
+class SlackAttachmentBlock implements SlackAttachmentBlockContract
 {
     /**
      * The type field of the attachment block.
