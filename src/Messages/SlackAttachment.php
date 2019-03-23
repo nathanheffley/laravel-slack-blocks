@@ -9,6 +9,8 @@ class SlackAttachment extends LaravelSlackAttachment
 {
     /**
      * The attachment's blocks.
+     *
+     * @var array
      */
     public $blocks;
 
@@ -32,9 +34,23 @@ class SlackAttachment extends LaravelSlackAttachment
      *
      * @return $this
      */
-    public function divider()
+    public function dividerBlock()
     {
-        $this->blocks[] = $block = new SlackAttachmentBlockDivider;
+        $this->blocks[] = new SlackAttachmentBlockDivider;
+
+        return $this;
+    }
+
+    /**
+     * Add an image block to the attachment.
+     *
+     * @param string $imageUrl
+     * @param string $altText
+     * @return $this
+     */
+    public function imageBlock($imageUrl, $altText)
+    {
+        $this->blocks[] = new SlackAttachmentBlockImage($imageUrl, $altText);
 
         return $this;
     }

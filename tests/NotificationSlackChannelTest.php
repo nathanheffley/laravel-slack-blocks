@@ -44,8 +44,8 @@ class NotificationSlackChannelTest extends TestCase
     public function testCorrectPayloadIsSentToSlack(Notification $notification, array $payload)
     {
         $this->guzzleHttp->shouldReceive('post')->andReturnUsing(function ($argUrl, $argPayload) use ($payload) {
-            $this->assertEquals($argUrl, 'url');
-            $this->assertEquals($argPayload, $payload);
+            $this->assertEquals('url', $argUrl);
+            $this->assertEquals($payload, $argPayload);
         });
 
         $this->slackChannel->send(new NotificationSlackChannelTestNotifiable, $notification);
@@ -132,10 +132,13 @@ class NotificationSlackChannelTest extends TestCase
                     'text' => 'Content',
                     'attachments' => [
                         [
-                            'title' => 'Laravel',
-                            'text' => 'Attachment Content',
-                            'title_link' => 'https://laravel.com',
+                            'title' => 'Specialty',
                             'blocks' => [
+                                [
+                                    'type' => 'image',
+                                    'image_url' => 'https://placekitten.com/400/600',
+                                    'alt_text' => 'A cute little kitten',
+                                ],
                                 [
                                     'type' => 'divider',
                                 ],
@@ -224,9 +227,9 @@ class NotificationSlackChannelWithAttachmentSpecialtyBlockBuilderTestNotificatio
         return (new SlackMessage)
             ->content('Content')
             ->attachment(function ($attachment) {
-                $attachment->title('Laravel', 'https://laravel.com')
-                    ->content('Attachment Content')
-                    ->divider();
+                $attachment->title('Specialty')
+                    ->imageBlock('https://placekitten.com/400/600', 'A cute little kitten')
+                    ->dividerBlock();
             });
     }
 }
