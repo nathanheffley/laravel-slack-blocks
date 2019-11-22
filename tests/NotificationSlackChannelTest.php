@@ -54,69 +54,71 @@ class NotificationSlackChannelTest extends TestCase
     public function payloadDataProvider()
     {
         return [
-            'payloadWithAttachmentBlockBuilder' => $this->getPayloadWithAttachmentBlockBuilder(),
+            'payloadWithAttachmentBlockBuilder' => $this->getPayloadWithMessageAndAttachmentBlockBuilder(),
             'payloadWithAttachmentSpecialtyBlockBuilder' => $this->getPayloadWithAttachmentSpecialtyBlockBuilder(),
         ];
     }
 
-    public function getPayloadWithAttachmentBlockBuilder()
+    public function getPayloadWithMessageAndAttachmentBlockBuilder()
     {
+        $blocks = [
+            [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'plain_text',
+                    'text' => 'Laravel',
+                ],
+                'block_id' => 'block-one',
+                'fields' => [
+                    [
+                        'type' => 'mrkdwn',
+                        'text' => 'Block',
+                    ],
+                    [
+                        'type' => 'mrkdwn',
+                        'text' => 'Attachments',
+                    ],
+                ],
+                'accessory' => [
+                    'type' => 'datepicker',
+                ],
+            ],
+            [
+                'type' => 'divider',
+            ],
+            [
+                'type' => 'image',
+                'image_url' => 'https://placekitten.com/400/600',
+                'alt_text' => 'A cute little kitten',
+                'title' => [
+                    'type' => 'plain_text',
+                    'text' => 'Kitten picture',
+                ],
+            ],
+            [
+                'type' => 'actions',
+                'elements' => [
+                    'type' => 'button',
+                    'text' => [
+                        'type' => 'plain_text',
+                        'text' => 'Cancel',
+                    ],
+                ],
+            ],
+        ];
+
         return [
             new NotificationSlackChannelWithAttachmentBlockBuilderTestNotification,
             [
                 'json' => [
                     'text' => 'Content',
-                    'blocks' => [],
+                    'blocks' => $blocks,
                     'attachments' => [
                         [
                             'title' => 'Laravel',
                             'text' => 'Attachment Content',
                             'title_link' => 'https://laravel.com',
-                            'blocks' => [
-                                [
-                                    'type' => 'section',
-                                    'text' => [
-                                        'type' => 'plain_text',
-                                        'text' => 'Laravel',
-                                    ],
-                                    'block_id' => 'block-one',
-                                    'fields' => [
-                                        [
-                                            'type' => 'mrkdwn',
-                                            'text' => 'Block',
-                                        ],
-                                        [
-                                            'type' => 'mrkdwn',
-                                            'text' => 'Attachments',
-                                        ],
-                                    ],
-                                    'accessory' => [
-                                        'type' => 'datepicker',
-                                    ],
-                                ],
-                                [
-                                    'type' => 'divider',
-                                ],
-                                [
-                                    'type' => 'image',
-                                    'image_url' => 'https://placekitten.com/400/600',
-                                    'alt_text' => 'A cute little kitten',
-                                    'title' => [
-                                        'type' => 'plain_text',
-                                        'text' => 'Kitten picture',
-                                    ],
-                                ],
-                                [
-                                    'type' => 'actions',
-                                    'elements' => [
-                                        'type' => 'button',
-                                        'text' => [
-                                            'type' => 'plain_text',
-                                            'text' => 'Cancel',
-                                        ],
-                                    ],
-                                ],
-                            ],
+                            'blocks' => $blocks,
                         ],
                     ],
                 ],
@@ -178,6 +180,52 @@ class NotificationSlackChannelWithAttachmentBlockBuilderTestNotification extends
     {
         return (new SlackMessage)
             ->content('Content')
+            ->block(function ($block) {
+                $block
+                    ->type('section')
+                    ->text([
+                        'type' => 'plain_text',
+                        'text' => 'Laravel',
+                    ])
+                    ->id('block-one')
+                    ->fields([
+                        [
+                            'type' => 'mrkdwn',
+                            'text' => 'Block',
+                        ],
+                        [
+                            'type' => 'mrkdwn',
+                            'text' => 'Attachments',
+                        ],
+                    ])
+                    ->accessory([
+                        'type' => 'datepicker',
+                    ]);
+            })
+            ->block(function ($block) {
+                $block->type('divider');
+            })
+            ->block(function ($block) {
+                $block
+                    ->type('image')
+                    ->imageUrl('https://placekitten.com/400/600')
+                    ->altText('A cute little kitten')
+                    ->title([
+                        'type' => 'plain_text',
+                        'text' => 'Kitten picture'
+                    ]);
+            })
+            ->block(function ($block) {
+                $block
+                    ->type('actions')
+                    ->elements([
+                        'type' => 'button',
+                        'text' => [
+                            'type' => 'plain_text',
+                            'text' => 'Cancel',
+                        ],
+                    ]);
+            })
             ->attachment(function ($attachment) {
                 $attachment->title('Laravel', 'https://laravel.com')
                     ->content('Attachment Content')
