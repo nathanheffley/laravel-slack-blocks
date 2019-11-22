@@ -42,6 +42,13 @@ class SlackBlock implements SlackBlockContract
     public $accessory;
 
     /**
+     * The url field of the block.
+     *
+     * @var string
+     */
+    public $url;
+
+    /**
      * The image url field of the block.
      *
      * @var string
@@ -130,6 +137,19 @@ class SlackBlock implements SlackBlockContract
     public function accessory($accessory)
     {
         $this->accessory = $accessory;
+
+        return $this;
+    }
+
+    /**
+     * Set the url of the block.
+     *
+     * @param  string  $url
+     * @return $this
+     */
+    public function url($url)
+    {
+        $this->$url = $url;
 
         return $this;
     }
