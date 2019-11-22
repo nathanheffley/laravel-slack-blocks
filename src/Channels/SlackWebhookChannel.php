@@ -22,6 +22,35 @@ class SlackWebhookChannel extends LaravelSlackWebhookChannel
     }
 
     /**
+     * Build up a JSON payload for the Slack webhook.
+     *
+     * @param  \Illuminate\Notifications\Messages\SlackMessage  $message
+     * @return array
+     */
+    protected function buildJsonPayload(SlackMessage $message)
+    {
+        $optionalFields = array_filter([
+            'channel' => data_get($message, 'channel'),
+            'icon_emoji' => data_get($message, 'icon'),
+            'icon_url' => data_get($message, 'image'),
+            'link_names' => data_get($message, 'linkNames'),
+            'unfurl_links' => data_get($message, 'unfurlLinks'),
+            'unfurl_media' => data_get($message, 'unfurlMedia'),
+            'username' => data_get($message, 'username'),
+        ]);
+
+        $result = array_merge([
+            'json' => array_merge([
+                'text' => $message->content,
+                'blocks' => $this->blocks($message),
+                'attachments' => $this->attachments($message),
+            ], $optionalFields),
+        ], $message->http);
+
+        return $result;
+    }
+
+    /**
      * Format the message's attachments.
      *
      * @param  \Illuminate\Notifications\Messages\SlackMessage  $message
@@ -54,14 +83,14 @@ class SlackWebhookChannel extends LaravelSlackWebhookChannel
     }
 
     /**
-     * Format the attachment's blocks.
+     * Format the message's blocks.
      *
-     * @param  \NathanHeffley\LaravelSlackBlocks\Messages\SlackBlockContract  $attachment
+     * @param  SlackMessage|SlackAttachment  $message
      * @return array
      */
-    protected function blocks(SlackAttachment $attachment)
+    protected function blocks($message)
     {
-        return collect($attachment->blocks)->map(function (SlackBlockContract $value) {
+        return collect($message->blocks)->map(function (SlackBlockContract $value) {
             return $value->toArray();
         })->values()->all();
     }

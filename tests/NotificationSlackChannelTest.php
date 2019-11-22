@@ -66,6 +66,7 @@ class NotificationSlackChannelTest extends TestCase
             [
                 'json' => [
                     'text' => 'Content',
+                    'blocks' => [],
                     'attachments' => [
                         [
                             'title' => 'Laravel',
@@ -109,7 +110,7 @@ class NotificationSlackChannelTest extends TestCase
                                     'type' => 'actions',
                                     'elements' => [
                                         'type' => 'button',
-                                        "text" => [
+                                        'text' => [
                                             'type' => 'plain_text',
                                             'text' => 'Cancel',
                                         ],
@@ -130,6 +131,7 @@ class NotificationSlackChannelTest extends TestCase
             [
                 'json' => [
                     'text' => 'Content',
+                    'blocks' => [],
                     'attachments' => [
                         [
                             'title' => 'Specialty',
@@ -219,7 +221,7 @@ class NotificationSlackChannelWithAttachmentBlockBuilderTestNotification extends
                             ->type('actions')
                             ->elements([
                                 'type' => 'button',
-                                "text" => [
+                                'text' => [
                                     'type' => 'plain_text',
                                     'text' => 'Cancel',
                                 ],
