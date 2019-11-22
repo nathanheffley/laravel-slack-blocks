@@ -5,7 +5,7 @@ namespace NathanHeffley\LaravelSlackBlocks\Channels;
 use GuzzleHttp\Client as HttpClient;
 use Illuminate\Notifications\Messages\SlackMessage;
 use NathanHeffley\LaravelSlackBlocks\Messages\SlackAttachment;
-use NathanHeffley\LaravelSlackBlocks\Contracts\SlackAttachmentBlockContract;
+use NathanHeffley\LaravelSlackBlocks\Contracts\SlackBlockContract;
 use Illuminate\Notifications\Channels\SlackWebhookChannel as LaravelSlackWebhookChannel;
 
 class SlackWebhookChannel extends LaravelSlackWebhookChannel
@@ -56,12 +56,12 @@ class SlackWebhookChannel extends LaravelSlackWebhookChannel
     /**
      * Format the attachment's blocks.
      *
-     * @param  \NathanHeffley\LaravelSlackBlocks\Messages\SlackAttachmentBlockContract  $attachment
+     * @param  \NathanHeffley\LaravelSlackBlocks\Messages\SlackBlockContract  $attachment
      * @return array
      */
     protected function blocks(SlackAttachment $attachment)
     {
-        return collect($attachment->blocks)->map(function (SlackAttachmentBlockContract $value) {
+        return collect($attachment->blocks)->map(function (SlackBlockContract $value) {
             return $value->toArray();
         })->values()->all();
     }

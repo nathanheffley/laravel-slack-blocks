@@ -2,10 +2,10 @@
 
 namespace NathanHeffley\LaravelSlackBlocks\Contracts;
 
-interface SlackAttachmentBlockContract
+interface SlackBlockContract
 {
     /**
-     * Get the array representation of the attachment block.
+     * Get the array representation of the block.
      *
      * @return array
      */

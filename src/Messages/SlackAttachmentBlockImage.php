@@ -2,9 +2,9 @@
 
 namespace NathanHeffley\LaravelSlackBlocks\Messages;
 
-use NathanHeffley\LaravelSlackBlocks\Contracts\SlackAttachmentBlockContract;
+use NathanHeffley\LaravelSlackBlocks\Contracts\SlackBlockContract;
 
-class SlackAttachmentBlockImage implements SlackAttachmentBlockContract
+class SlackAttachmentBlockImage implements SlackBlockContract
 {
     /**
      * The image's URL.
