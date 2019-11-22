@@ -5,7 +5,7 @@ namespace NathanHeffley\LaravelSlackBlocks\Channels;
 use GuzzleHttp\Client as HttpClient;
 use Illuminate\Notifications\Messages\SlackMessage;
 use NathanHeffley\LaravelSlackBlocks\Messages\SlackAttachment;
-use NathanHeffley\LaravelSlackBlocks\Contracts\SlackAttachmentBlockContract;
+use NathanHeffley\LaravelSlackBlocks\Contracts\SlackBlockContract;
 use Illuminate\Notifications\Channels\SlackWebhookChannel as LaravelSlackWebhookChannel;
 
 class SlackWebhookChannel extends LaravelSlackWebhookChannel
@@ -19,6 +19,35 @@ class SlackWebhookChannel extends LaravelSlackWebhookChannel
     public function __construct(HttpClient $http)
     {
         parent::__construct($http);
+    }
+
+    /**
+     * Build up a JSON payload for the Slack webhook.
+     *
+     * @param  \Illuminate\Notifications\Messages\SlackMessage  $message
+     * @return array
+     */
+    protected function buildJsonPayload(SlackMessage $message)
+    {
+        $optionalFields = array_filter([
+            'channel' => data_get($message, 'channel'),
+            'icon_emoji' => data_get($message, 'icon'),
+            'icon_url' => data_get($message, 'image'),
+            'link_names' => data_get($message, 'linkNames'),
+            'unfurl_links' => data_get($message, 'unfurlLinks'),
+            'unfurl_media' => data_get($message, 'unfurlMedia'),
+            'username' => data_get($message, 'username'),
+        ]);
+
+        $result = array_merge([
+            'json' => array_merge([
+                'text' => $message->content,
+                'blocks' => $this->blocks($message),
+                'attachments' => $this->attachments($message),
+            ], $optionalFields),
+        ], $message->http);
+
+        return $result;
     }
 
     /**
@@ -54,14 +83,14 @@ class SlackWebhookChannel extends LaravelSlackWebhookChannel
     }
 
     /**
-     * Format the attachment's blocks.
+     * Format the message's blocks.
      *
-     * @param  \NathanHeffley\LaravelSlackBlocks\Messages\SlackAttachmentBlockContract  $attachment
+     * @param  SlackMessage|SlackAttachment  $message
      * @return array
      */
-    protected function blocks(SlackAttachment $attachment)
+    protected function blocks($message)
     {
-        return collect($attachment->blocks)->map(function (SlackAttachmentBlockContract $value) {
+        return collect($message->blocks)->map(function (SlackBlockContract $value) {
             return $value->toArray();
         })->values()->all();
     }

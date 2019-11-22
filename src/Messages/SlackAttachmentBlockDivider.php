@@ -2,9 +2,9 @@
 
 namespace NathanHeffley\LaravelSlackBlocks\Messages;
 
-use NathanHeffley\LaravelSlackBlocks\Contracts\SlackAttachmentBlockContract;
+use NathanHeffley\LaravelSlackBlocks\Contracts\SlackBlockContract;
 
-class SlackAttachmentBlockDivider implements SlackAttachmentBlockContract
+class SlackAttachmentBlockDivider implements SlackBlockContract
 {
     /**
      * Get the array representation of the attachment block.

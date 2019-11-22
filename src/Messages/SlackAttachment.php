@@ -22,7 +22,7 @@ class SlackAttachment extends LaravelSlackAttachment
      */
     public function block(Closure $callback)
     {
-        $this->blocks[] = $block = new SlackAttachmentBlock;
+        $this->blocks[] = $block = new SlackBlock;
 
         $callback($block);
 

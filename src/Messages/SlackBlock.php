@@ -2,68 +2,75 @@
 
 namespace NathanHeffley\LaravelSlackBlocks\Messages;
 
-use NathanHeffley\LaravelSlackBlocks\Contracts\SlackAttachmentBlockContract;
+use NathanHeffley\LaravelSlackBlocks\Contracts\SlackBlockContract;
 
-class SlackAttachmentBlock implements SlackAttachmentBlockContract
+class SlackBlock implements SlackBlockContract
 {
     /**
-     * The type field of the attachment block.
+     * The type field of the block.
      *
      * @var string
      */
     public $type;
 
     /**
-     * The text field of the attachment block.
+     * The text field of the block.
      *
      * @var array
      */
     public $text;
 
     /**
-     * The block ID field of the attachment block.
+     * The block ID field of the block.
      *
      * @var string
      */
     public $id;
 
     /**
-     * The fields field of the attachment block.
+     * The fields field of the block.
      *
      * @var array
      */
     public $fields;
 
     /**
-     * The accessory field of the attachment block.
+     * The accessory field of the block.
      *
      * @var array
      */
     public $accessory;
 
     /**
-     * The image url field of the attachment block.
+     * The url field of the block.
+     *
+     * @var string
+     */
+    public $url;
+
+    /**
+     * The image url field of the block.
      *
      * @var string
      */
     public $imageUrl;
 
     /**
-     * The alt text field of the attachment block.
+     * The alt text field of the block.
      *
      * @var string
      */
     public $altText;
 
     /**
-     * The title field of the attachment block.
+     * The title field of the block.
      *
      * @var array
      */
     public $title;
 
     /**
-     * The elements field of the attachment block.
+     * The elements field of the block.
      *
      * @var array
      */
@@ -135,6 +142,19 @@ class SlackAttachmentBlock implements SlackAttachmentBlockContract
     }
 
     /**
+     * Set the url of the block.
+     *
+     * @param  string  $url
+     * @return $this
+     */
+    public function url($url)
+    {
+        $this->$url = $url;
+
+        return $this;
+    }
+
+    /**
      * Set the image url of the block.
      *
      * @param  string  $imageUrl
@@ -187,7 +207,7 @@ class SlackAttachmentBlock implements SlackAttachmentBlockContract
     }
 
     /**
-     * Get the array representation of the attachment block.
+     * Get the array representation of the block.
      *
      * @return array
      */
