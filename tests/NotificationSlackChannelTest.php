@@ -56,6 +56,7 @@ class NotificationSlackChannelTest extends TestCase
         return [
             'payloadWithAttachmentBlockBuilder' => $this->getPayloadWithMessageAndAttachmentBlockBuilder(),
             'payloadWithAttachmentSpecialtyBlockBuilder' => $this->getPayloadWithAttachmentSpecialtyBlockBuilder(),
+            'payloadWithBaseSlackMessage' => $this->getPayloadWithBaseSlackMessage(),
         ];
     }
 
@@ -162,6 +163,21 @@ class NotificationSlackChannelTest extends TestCase
             ],
         ];
     }
+
+    public function getPayloadWithBaseSlackMessage()
+    {
+        return [
+            new NotificationSlackChannelWithBaseSlackMessage,
+            [
+                'json' => [
+                    'text' => 'Content',
+                    'blocks' => [],
+                    'attachments' => []
+                ],
+            ],
+        ];
+    }
+
 }
 
 class NotificationSlackChannelTestNotifiable
@@ -291,5 +307,14 @@ class NotificationSlackChannelWithAttachmentSpecialtyBlockBuilderTestNotificatio
                     ->imageBlock('https://placekitten.com/600/400', 'Another cute cat')
                     ->dividerBlock();
             });
+    }
+}
+
+
+class NotificationSlackChannelWithBaseSlackMessage extends Notification
+{
+    public function toSlack($notifiable)
+    {
+        return (new \Illuminate\Notifications\Messages\SlackMessage)->content('Content');
     }
 }

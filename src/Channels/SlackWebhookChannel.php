@@ -90,6 +90,10 @@ class SlackWebhookChannel extends LaravelSlackWebhookChannel
      */
     protected function blocks($message)
     {
+        if (!property_exists($message, 'blocks')) {
+            return [];
+        }
+
         return collect($message->blocks)->map(function (SlackBlockContract $value) {
             return $value->toArray();
         })->values()->all();
