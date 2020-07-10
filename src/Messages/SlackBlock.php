@@ -149,7 +149,7 @@ class SlackBlock implements SlackBlockContract
      */
     public function url($url)
     {
-        $this->$url = $url;
+        $this->url = $url;
 
         return $this;
     }
