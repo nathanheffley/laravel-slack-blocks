@@ -4,6 +4,7 @@ namespace NathanHeffley\Tests\LaravelSlackBlocks;
 
 use Mockery as m;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
@@ -46,6 +47,8 @@ class NotificationSlackChannelTest extends TestCase
         $this->guzzleHttp->shouldReceive('post')->andReturnUsing(function ($argUrl, $argPayload) use ($payload) {
             $this->assertEquals('url', $argUrl);
             $this->assertEquals($payload, $argPayload);
+
+            return new Response();
         });
 
         $this->slackChannel->send(new NotificationSlackChannelTestNotifiable, $notification);
