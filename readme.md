@@ -2,6 +2,11 @@
 
 This package is an extension of the official `laravel/slack-notification-channel` package.
 
+> **Note**
+> Thes core notifications package has finally built-in support for these rich Slack messages, and as such you should use the official package if you are able.
+>
+> https://laravel.com/docs/10.x/notifications#formatting-slack-notifications
+
 ## Usage
 
 Instead of requiring the official package, you should require this one instead.
